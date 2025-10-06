@@ -1,14 +1,110 @@
-const myinput = document.getElementById("myinput")
+const bal_acc = document.getElementById("bal_acc")
+const bal_cash = document.getElementById("bal_cash")
+const process_type = document.getElementById("process_type")
+const process_amt = document.getElementById("process_amt")
+const log = document.getElementById("log")
 
-function add() {
-    myinput.value = Number(myinput.value) + 1
+let curr_id = 1
+let curr_acc = Number(bal_acc.value)
+let curr_cash = Number(bal_acc.value)
+
+function changeBalance() {
+    curr_acc = Number(bal_acc.value)
+    curr_cash = Number(bal_cash.value)
+    showBalance()
 }
 
-function decrease() {
-    if (Number(mynumber)) {
-        myinput.value = Number(myinput.value) - 0
-    }
-    else {
-        myinput.value = Number(myinput.value) - 1
+function proceedOperation() {
+    if (process_type.value == "deposit") {
+        if (curr_cash >= Number(process_amt.value)) {
+            curr_acc += Number(process_amt.value)
+            curr_cash -= Number(process_amt.value)
+            showBalance()
+        } else {
+            addLog("Couldn't deposit entered balance. (Insufficient cash balance)")
+        }
+    } else if (process_type.value == "withdraw") {
+        if (curr_acc >= Number(process_amt.value)) {
+            curr_acc -= Number(process_amt.value)
+            curr_cash += Number(process_amt.value)
+            showBalance()
+        } else {
+            addLog("Couldn't withdraw entered balance. (Insufficient account balance)")
+        }
     }
 }
+
+function showBalance() {
+    bal_acc.value = Number(curr_acc)
+    bal_cash.value = Number(curr_cash)
+    addLog("Current account balance: " + curr_acc + ", Current cash balance: " + curr_cash)
+}
+
+function addLog(text) {
+    log.value = (curr_id++ + ", " + text + "\n" + log.value).trim()
+}
+
+showBalance()
+
+function playMusic() {
+  const audio = document.getElementById('bgm');
+  if (!audio) return;
+
+  audio.loop = true;
+
+  // ลองเล่นแบบตรง ๆ ก่อน (บางเบราว์เซอร์/กรณีจะยอม)
+  const tryAutoplay = async () => {
+    try {
+      await audio.play();
+      fadeIn(audio, 0.8); // ค่อย ๆ เพิ่มเสียงให้เนียน
+      console.info('Autoplay with sound ✅');
+    } catch (err) {
+      console.warn('Autoplay blocked. Fallback -> muted first.', err);
+
+      // แผนสำรอง: เล่นแบบปิดเสียงไปก่อน (ส่วนใหญ่ระบบยอม)
+      audio.muted = true;
+      try {
+        await audio.play();
+        console.info('Autoplay muted ✅ (waiting for any user interaction to unmute)');
+      } catch (err2) {
+        console.warn('Even muted autoplay failed:', err2);
+      }
+
+      // พอมี interaction ใด ๆ (ไม่ต้องกดปุ่ม) ค่อยปลด mute แล้ว fade-in
+      const unlock = async () => {
+        audio.muted = false;
+        if (audio.paused) {
+          try { await audio.play(); } catch (e) { /* เงียบไว้ */ }
+        }
+        fadeIn(audio, 0.8);
+        removeUnlockers();
+      };
+
+      const removeUnlockers = () => {
+        document.removeEventListener('pointerdown', unlock);
+        document.removeEventListener('keydown', unlock);
+        document.removeEventListener('scroll', unlock, { passive: true });
+        document.removeEventListener('touchstart', unlock);
+      };
+
+      document.addEventListener('pointerdown', unlock);
+      document.addEventListener('keydown', unlock);
+      document.addEventListener('scroll', unlock, { passive: true });
+      document.addEventListener('touchstart', unlock);
+    }
+  };
+
+  tryAutoplay();
+}
+
+// utility: ค่อย ๆ เพิ่มเสียงให้เนียนหู
+function fadeIn(audio, target = 1.0, step = 0.05, interval = 100) {
+  audio.volume = 0;
+  const id = setInterval(() => {
+    audio.volume = Math.min(target, audio.volume + step);
+    if (audio.volume >= target) clearInterval(id);
+  }, interval);
+}
+
+// ให้เริ่มทำงานอัตโนมัติเมื่อ DOM พร้อม (ไม่ต้องมีปุ่มใด ๆ)
+document.addEventListener('DOMContentLoaded', playMusic);

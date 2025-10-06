@@ -3,19 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>IT 68070014</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <nav>
-        <p>68070106</p>
-        <h2>ITF Website</h2>
-        <p>Week 14</p>
+        <p>
+            68070106
+        </p>
+        <h2>
+            ITF Website
+        </h2>
+        <p>
+            Week 14
+        </p>
     </nav>
-    <div>
-        Enter number: <input type="number" id="myinput" value="0">
-        <button onclick="add()">+1</button>
-        <button onclick="decrease()">-1</button>
+    <div class="container">
+        <div class="w-title">
+            <img src="pic/Laugh.png" width="96" alt="Laugh" />
+            <div>
+                <h1>
+                    ITF Simple Bank
+                </h1>
+                <p>
+                   Welcome to my first HTML + CSS + JS website! 
+                </p>
+            </div>
+        </div>
+        <hr>
+        <div>
+			<div>
+				<textarea id="log" disabled></textarea>
+			</div>
+			<div class="w-content">
+				<div>
+					<h2 style="margin-top: 16px;">
+						Account Overview
+					</h2>
+					<div class="user-container">
+						<img src="pic/user.png" width="64" alt="User" />
+						<div>
+							<h3 style="margin-top: 0; margin-left: 0;">
+								Account Information
+							</h3>
+							Name: Jirapat Wichaidit
+							<br>
+							Type: Savings Account
+						</div>
+					</div>
+					<div class="user-container">
+						<img src="pic/briefcase.png" width="64" alt="Briefcase" />
+						<div>
+							<h3 style="margin-top: 0; margin-left: 0;">
+								Balance Information
+							</h3>
+							<div class="user-balance">
+								<div>
+									Current account balance:
+								</div>
+								<div>
+									<input type="number" id="bal_acc" value="1000" min="0">
+								</div>
+								<div>
+									Current cash balance:
+								</div>
+								<div>
+									<input type="number" id="bal_cash" value="500" min="0">
+								</div>
+							</div>
+							<button type="button" onclick="changeBalance()" style="margin-top: 4px;">
+								Change
+							</button>
+						</div>
+					</div>
+					<div class="user-container">
+						<img src="pic/toolbox.png" width="64" alt="Toolbox" />
+						<div>
+							<h3 style="margin-top: 0; margin-left: 0;">
+								Bank Operation
+							</h3>
+							<select id="process_type">
+								<option value="deposit">Deposit</option>
+								<option value="withdraw">Withdraw</option>
+							</select>
+							<input type="number" id="process_amt" value="1" min="1">
+							<button type="button" onclick="proceedOperation()" style="margin-top: 4px;">
+								Proceed
+							</button>
+						</div>
+					</div>
+				</div>
+				<div>
+					<h2 style="margin-top: 16px;">
+						Financial Tools
+					</h2>
+					<div class="user-container">
+						<img src="pic/coins.png" width="64" alt="coins" />
+						<div>
+							<h3 style="margin-top: 0; margin-left: 0;">
+								Currency Converter
+							</h3>
+							<div class="user-balance">
+								<div>
+									Input balance:
+								</div>
+								<div>
+									<input type="number" id="con_in" value="0" min="0">
+								</div>
+								<div>
+									Output balance:
+								</div>
+								<div>
+									<input type="number" id="con_out" value="0" min="0" disabled>
+								</div>
+							</div>
+							<div>
+								Input currency:
+								<select id="con_intype">
+									<option value="deposit">USD</option>
+									<option value="withdraw">THB</option>
+								</select>
+								<button type="button" onclick="convertBalance()" style="margin-top: 4px;">
+									Convert
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
     </div>
     <script src="script.js"></script>
 </body>
